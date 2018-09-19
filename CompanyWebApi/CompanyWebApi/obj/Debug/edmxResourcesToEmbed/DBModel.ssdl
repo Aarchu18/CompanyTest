@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="CompanyPortfolioModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="tblCompanyDetails">
+    <Key>
+      <PropertyRef Name="CompanyID" />
+    </Key>
+    <Property Name="CompanyID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CompanyName" Type="varchar" MaxLength="200" Nullable="false" />
+    <Property Name="CompanyAddress" Type="varchar" MaxLength="500" Nullable="false" />
+    <Property Name="CompanyEmail" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="CompanyPhoneNo" Type="int" Nullable="false" />
+    <Property Name="CompanyContactPerson" Type="varchar" MaxLength="100" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'CompanyPortfolio.dbo.tblPortfolioDetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="tblPortfolioDetails">
+    <Key>
+      <PropertyRef Name="PortfolioID" />
+      <PropertyRef Name="CompanyID" />
+      <PropertyRef Name="PortfolioName" />
+      <PropertyRef Name="PortfolioDescription" />
+      <PropertyRef Name="CoverImage" />
+      <PropertyRef Name="YouTubeUrl" />
+    </Key>
+    <Property Name="PortfolioID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CompanyID" Type="int" Nullable="false" />
+    <Property Name="PortfolioName" Type="varchar" MaxLength="200" Nullable="false" />
+    <Property Name="PortfolioDescription" Type="varchar" MaxLength="1000" Nullable="false" />
+    <Property Name="CoverImage" Type="varchar" MaxLength="500" Nullable="false" />
+    <Property Name="YouTubeUrl" Type="varchar" MaxLength="500" Nullable="false" />
+  </EntityType>
+  <Association Name="FK__tblPortfo__Compa__117F9D94">
+    <End Role="tblCompanyDetails" Type="Self.tblCompanyDetails" Multiplicity="1" />
+    <End Role="tblPortfolioDetails" Type="Self.tblPortfolioDetails" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblCompanyDetails">
+        <PropertyRef Name="CompanyID" />
+      </Principal>
+      <Dependent Role="tblPortfolioDetails">
+        <PropertyRef Name="CompanyID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="CompanyPortfolioModelStoreContainer">
+    <EntitySet Name="tblCompanyDetails" EntityType="Self.tblCompanyDetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblPortfolioDetails" EntityType="Self.tblPortfolioDetails" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [tblPortfolioDetails].[PortfolioID] AS [PortfolioID], 
+    [tblPortfolioDetails].[CompanyID] AS [CompanyID], 
+    [tblPortfolioDetails].[PortfolioName] AS [PortfolioName], 
+    [tblPortfolioDetails].[PortfolioDescription] AS [PortfolioDescription], 
+    [tblPortfolioDetails].[CoverImage] AS [CoverImage], 
+    [tblPortfolioDetails].[YouTubeUrl] AS [YouTubeUrl]
+    FROM [dbo].[tblPortfolioDetails] AS [tblPortfolioDetails]</DefiningQuery>
+    </EntitySet>
+    <AssociationSet Name="FK__tblPortfo__Compa__117F9D94" Association="Self.FK__tblPortfo__Compa__117F9D94">
+      <End Role="tblCompanyDetails" EntitySet="tblCompanyDetails" />
+      <End Role="tblPortfolioDetails" EntitySet="tblPortfolioDetails" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
